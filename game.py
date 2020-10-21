@@ -1,6 +1,6 @@
 import pygame
 import random
-################################생성된 객체가 처음것을 따라가게 만들기###################################
+################################ 97 ~ 98번째줄 고민###################################
 pygame.init()
 
 
@@ -32,6 +32,7 @@ players.append([player_x_pos, player_y_pos])
 to_x = 0
 to_y = 0
 
+
 screen_width = white_width * 30
 screen_height = white_width * 20
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -41,7 +42,7 @@ clock = pygame.time.Clock()
 enemy_on = True
 
 while running:
-    dt = clock.tick(20)
+    dt = clock.tick(10)
     temp = score
     for i in range(1,31):
         for j in range(1,21):
@@ -75,30 +76,55 @@ while running:
         enemy_on = False
     
     
-    
+    tmp_players = []
     ############캐릭터 좌표설정####################
 
-    
+    tmp_players = players
     
     # players = [[p[0][0] + to_x, p[0][1] + to_y] for p in players]
 
     players[0][0] += to_x
     players[0][1] += to_y
+    player_x = players[0][0]
+    player_y = players[0][1]
+
+    for i in range(2, score + 1):
+        # if i == 0:
+        #     player_x = players[i][0]
+        #     player_y = players[i][1]
+        
+
+        players[i - 1][0] = tmp_players[i - 2][0]
+        players[i - 1][1] = tmp_players[i - 2][1]
+        # else:
+        #     players[i][0] = players[i - 1][0]
+        #     players[i][1] = players[i - 1][1]
+
 
     for i in range(0, score):
-        player_x = int(players[i][0])
-        player_y = int(players[i][1])
-        screen.blit(red, ((player_x - 1) * white_width, (player_y - 1) * white_width))
-        if players[i][0] < 0:
+        
+        
+        
+        
+        
+        if players[i][0] <= 0:
             players[i][0] = 30
         if players[i][0] > 30:
-            players[i][0] = 0
-        if players[i][1] < 0:
+            players[i][0] = 1
+        if players[i][1] <= 0:
             players[i][1] = 20
         if players[i][1] > 20:
-            players[i][1] = 0
+            players[i][1] = 1
+
+        screen.blit(red, ((players[i][0] - 1) * white_width, (players[i][1] - 1) * white_width))
+    
+
     
     screen.blit(green, (rand_x * green_width, rand_y * green_height))
+    temp_end_x = players[score - 1][0]
+    temp_end_y = players[score - 1][1]
+
+    
 
 
     # players_x_pos += to_x
@@ -123,16 +149,17 @@ while running:
         score += 1
         enemy_on = True
         if to_x > 0 and to_y == 0:
-            players.append([players[int(len(players)) - 1][0] - 1, players[int(len(players)) - 1][1]])
+            players.append([players[len(players) - 1][0] - 1, players[len(players) - 1][1]])
         if to_x < 0 and to_y == 0:
-            players.append([players[int(len(players)) - 1][0] + 1, players[int(len(players)) - 1][1]])
+            players.append([players[len(players) - 1][0] + 1, players[len(players) - 1][1]])
         if to_x == 0 and to_y > 0:
-            players.append([players[int(len(players)) - 1][0], players[int(len(players)) - 1][1] + 1])
+            players.append([players[len(players) - 1][0], players[len(players) - 1][1] - 1])
         if to_x == 0 and to_y < 0:
-            players.append([players[int(len(players)) - 1][0], players[int(len(players)) - 1][1] - 1])
+            players.append([players[len(players) - 1][0], players[len(players) - 1][1] + 1])
     
     
     print(players)
+    print(tmp_players)
 
 
     pygame.display.update()
