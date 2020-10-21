@@ -1,5 +1,5 @@
 import pygame
-import random
+import random1
 ################################ 97 ~ 98번째줄 고민###################################
 pygame.init()
 
