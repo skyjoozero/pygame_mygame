@@ -18,6 +18,11 @@ red_size = red.get_rect().size
 red_width = red_size[0]
 red_height = red_size[1]
 
+enemy = pygame.image.load("images\\red.png")
+enemy_size = enemy.get_rect().size
+enemy_width = enemy_size[0]
+enemy_height = enemy_size[1]
+
 green = pygame.image.load("images\\green.png")
 green_size = green.get_rect().size
 green_width = green_size[0]
@@ -73,32 +78,22 @@ while running:
         rand_x = random.randint(0,29)
         rand_y = random.randint(0,19)
         
+        while [rand_x, rand_y] in players:
+            rand_x = random.randint(0,29)
+            rand_y = random.randint(0,19)
+
+
         enemy_on = False
     
     
-    tmp_players = []
     ############캐릭터 좌표설정####################
 
-    tmp_players = players
     
-    # players = [[p[0][0] + to_x, p[0][1] + to_y] for p in players]
+    tmp_player_x = players[0][0] + to_x
+    tmp_player_y = players[0][1] + to_y
 
-    players[0][0] += to_x
-    players[0][1] += to_y
-    player_x = players[0][0]
-    player_y = players[0][1]
-
-    for i in range(2, score + 1):
-        # if i == 0:
-        #     player_x = players[i][0]
-        #     player_y = players[i][1]
-        
-
-        players[i - 1][0] = tmp_players[i - 2][0]
-        players[i - 1][1] = tmp_players[i - 2][1]
-        # else:
-        #     players[i][0] = players[i - 1][0]
-        #     players[i][1] = players[i - 1][1]
+    players.insert(0, [tmp_player_x, tmp_player_y])
+    del players[score]
 
 
     for i in range(0, score):
@@ -124,22 +119,20 @@ while running:
     temp_end_x = players[score - 1][0]
     temp_end_y = players[score - 1][1]
 
-    
-
-
-    # players_x_pos += to_x
-    # players_y_pos += to_y
-    # if score > temp:
-    #     players.append([[players_x_pos], [players_y_pos]])
-    # print(len(players))
-    # print(players)
-
 
     ################점수추가 충돌계산 충동설정 enemy_on설정 score += 1######################
 
     red_rect = red.get_rect()
     red_rect.left = (players[0][0] - 1) * red_width
     red_rect.top = (players[0][1] - 1) * red_height
+    
+    # for i in range(1, score + 1):
+    #     enemy_rect = enemy.get_rect()
+    #     enemy_rect.left = (players[i - 1][0]) * enemy_width
+    #     enemy_rect.top = (players[i - 1][1]) * enemy_height
+
+    #     if red_rect.colliderect(enemy_rect):
+    #         running = False
 
     green_rect = green.get_rect()
     green_rect.left = rand_x * green_width
@@ -158,8 +151,5 @@ while running:
             players.append([players[len(players) - 1][0], players[len(players) - 1][1] + 1])
     
     
-    print(players)
-    print(tmp_players)
-
 
     pygame.display.update()
