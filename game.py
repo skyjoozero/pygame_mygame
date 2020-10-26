@@ -123,16 +123,16 @@ while running:
     ################점수추가 충돌계산 충동설정 enemy_on설정 score += 1######################
 
     red_rect = red.get_rect()
-    red_rect.left = (players[0][0] - 1) * red_width
-    red_rect.top = (players[0][1] - 1) * red_height
+    red_rect.left = (players[0][0] - 1) * (red_width - 0.1)
+    red_rect.top = (players[0][1] - 1) * (red_height - 0.1)
     
-    # for i in range(1, score + 1):
-    #     enemy_rect = enemy.get_rect()
-    #     enemy_rect.left = (players[i - 1][0]) * enemy_width
-    #     enemy_rect.top = (players[i - 1][1]) * enemy_height
+    for i in range(1, score):
+        enemy_rect = enemy.get_rect()
+        enemy_rect.left = (players[i][0]) * enemy_width
+        enemy_rect.top = (players[i][1]) * enemy_height
 
-    #     if red_rect.colliderect(enemy_rect):
-    #         running = False
+        if red_rect.colliderect(enemy_rect):
+            running = False
 
     green_rect = green.get_rect()
     green_rect.left = rand_x * green_width
